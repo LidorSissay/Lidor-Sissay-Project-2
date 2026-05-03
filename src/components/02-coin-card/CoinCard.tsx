@@ -48,10 +48,13 @@ const CoinCard = (props: CoinCardProps) => {
                         onChange={() => setSelectedCoins(prev => {
                             if (prev.includes(id)) {
                                 return prev.filter(coinId => coinId !== id)
-                            } else {
-                                return [...prev, id]
+                            } if (prev.length === 5) {
+                                alert('You can select up to 5 coins')
+                                return prev
                             }
-                        })} />
+                            return [...prev, id]
+                        }
+                        )} />
                     </div>
                     <div className="CoinIcon"><img src={image} alt={id} /></div>
                     <div className="CoinName">{name}</div>
