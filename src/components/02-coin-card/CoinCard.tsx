@@ -10,13 +10,15 @@ interface CoinCardProps {
     coin: CoinModel
     selectedCoins: string[]
     setSelectedCoins: React.Dispatch<React.SetStateAction<string[]>>
+    setIsLimitModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setPendingCoin: React.Dispatch<React.SetStateAction<string | null>>
 }
 const CoinCard = (props: CoinCardProps) => {
     const [moreInfo, setMoreInfo] = useState<CurrentPriceModel | null>(null)
     const [isInfo, setIsInfo] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const { id, image, symbol, name } = props.coin
-    const { selectedCoins, setSelectedCoins } = props
+    const { selectedCoins, setSelectedCoins, setIsLimitModalOpen, setPendingCoin } = props
     const displayInfo = async (): Promise<void> => {
         try {
             if (moreInfo) {
@@ -49,7 +51,8 @@ const CoinCard = (props: CoinCardProps) => {
                             if (prev.includes(id)) {
                                 return prev.filter(coinId => coinId !== id)
                             } if (prev.length === 5) {
-                                alert('You can select up to 5 coins')
+                                setIsLimitModalOpen(true)
+                                setPendingCoin(id)
                                 return prev
                             }
                             return [...prev, id]
