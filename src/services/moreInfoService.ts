@@ -1,9 +1,9 @@
 import axios from "axios";
-import type InfoModel from "../models/InfoModel";
+import type MoreInfoModel from "../models/MoreInfoModel";
 
 class MoreInfoService {
-    async getInfo(id: string): Promise<InfoModel> {
-        const { data } = await axios.get<InfoModel>(`https://api.coingecko.com/api/v3/coins/${id}`)
+    async getInfo(id: string): Promise<MoreInfoModel> {
+        const { data } = await axios.get<MoreInfoModel>(`https://api.coingecko.com/api/v3/coins/${id}`)
         return data
     }
 }
