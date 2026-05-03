@@ -4,6 +4,7 @@ import moreInfoService from "../../services/moreInfoService"
 import type CurrentPriceModel from "../../models/CurrentPriceModel"
 import MoreInfo from "../03--more-info/MoreInfo"
 import Spinner from "../04-spinner/Spinner"
+import Modal from "../05-modal/Modal"
 
 interface CoinCardProps {
     coin: CoinModel
@@ -29,7 +30,9 @@ const CoinCard = (props: CoinCardProps) => {
         } finally {
             setIsLoading(false)
         }
-
+    }
+    const closeInfo = (): void => {
+        setIsInfo(false)
     }
     return (
         <div className="CoinCard">
@@ -42,8 +45,10 @@ const CoinCard = (props: CoinCardProps) => {
                     <div className="btn"><button onClick={displayInfo} >MORE INFO</button></div>
                 </>
             }
-            {isInfo && moreInfo &&
-                <MoreInfo info={moreInfo} onClose={() => setIsInfo(false)} />
+            {!isLoading && isInfo && moreInfo &&
+                <Modal onClose={closeInfo}>
+                    <MoreInfo info={moreInfo} onClose={closeInfo} />
+                </Modal>
             }
         </div>
     )
