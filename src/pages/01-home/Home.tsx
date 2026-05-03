@@ -7,6 +7,7 @@ import Spinner from "../../components/04-spinner/Spinner"
 const Home = () => {
     const [coinsList, setCoinsList] = useState<CoinModel[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [selectedCoins, setSelectedCoins] = useState<string[]>([])
     useEffect(() => {
         (async () => {
             try {
@@ -23,7 +24,13 @@ const Home = () => {
     return (
         <div className="Home">
             {isLoading && <Spinner />}
-            {!isLoading && coinsList.map(coin => <CoinCard key={coin.id} coin={coin} />)}
+            {!isLoading &&
+                coinsList.map(coin => (
+                    <CoinCard
+                        key={coin.id}
+                        coin={coin}
+                        selectedCoins={selectedCoins}
+                        setSelectedCoins={setSelectedCoins} />))}
         </div>
     )
 }

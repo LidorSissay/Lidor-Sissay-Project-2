@@ -8,12 +8,15 @@ import Modal from "../05-modal/Modal"
 
 interface CoinCardProps {
     coin: CoinModel
+    selectedCoins: string[]
+    setSelectedCoins: React.Dispatch<React.SetStateAction<string[]>>
 }
 const CoinCard = (props: CoinCardProps) => {
     const [moreInfo, setMoreInfo] = useState<CurrentPriceModel | null>(null)
     const [isInfo, setIsInfo] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const { id, image, symbol, name } = props.coin
+    const { selectedCoins, setSelectedCoins } = props
     const displayInfo = async (): Promise<void> => {
         try {
             if (moreInfo) {
@@ -39,6 +42,17 @@ const CoinCard = (props: CoinCardProps) => {
             {isLoading && <Spinner />}
             {!isLoading &&
                 <>
+                    <div><input
+                        type="checkbox"
+                        checked={selectedCoins.includes(id)}
+                        onChange={() => setSelectedCoins(prev => {
+                            if (prev.includes(id)) {
+                                return prev.filter(coinId => coinId !== id)
+                            } else {
+                                return [...prev, id]
+                            }
+                        })} />
+                    </div>
                     <div className="CoinIcon"><img src={image} alt={id} /></div>
                     <div className="CoinName">{name}</div>
                     <div className="CoinSymbol">{symbol.toUpperCase()}</div>
