@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useAppSelector } from "../../components/07-redux/hooks"
+import { useAppDispatch, useAppSelector } from "../../components/07-redux/hooks"
 import reportsService from "../../services/reportsService"
 import Spinner from "../../components/04-spinner/Spinner"
 import {
@@ -13,6 +13,8 @@ import {
 } from "chart.js"
 import type ChartDataModel from "../../models/ChartDataModel"
 import ReportsCharts from "../../components/07-reports-chart/ReportsCharts"
+import coinsService from "../../services/coinsService"
+import { populate } from "../../components/07-redux/coins-slice"
 
 ChartJS.register(
     LineElement,
@@ -37,8 +39,20 @@ const Reports = () => {
     })
     const colors = ["red", "blue", "green", "orange", "purple"]
     const MAX_POINTS = 20
+    const dispatch = useAppDispatch()
     useEffect(() => {
-        if (!symbols) return
+        const loadCoinsIfNeeded = async () => {
+            if (coins.length === 0) {
+                try {
+                    const coinsList = await coinsService.getCoins()
+                    dispatch(populate(coinsList))
+                } catch (e) {
+                    alert(e)
+                }
+            }
+        }
+        loadCoinsIfNeeded()
+        if (selectedCoins.length === 0) return
         const load = async () => {
             try {
                 const reports = await reportsService.getReports(symbols)
@@ -75,7 +89,7 @@ const Reports = () => {
         const interval = setInterval(load, 1000)
         return () => clearInterval(interval)
     }, [symbols])
-    if (symbols.length === 0) {
+    if (selectedCoins.length === 0) {
         return <h4>Please select coins first...</h4>
     }
     return (
