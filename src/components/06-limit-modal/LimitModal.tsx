@@ -1,14 +1,16 @@
 import Modal from "../05-modal/Modal"
+import { useAppDispatch, useAppSelector } from "../07-redux/hooks"
+import { addCoin, removeCoin } from "../07-redux/selected-coins-slice"
 import './LimitModal.css'
 
 interface LimitModalProps {
-    selectedCoins: string[]
-    setSelectedCoins: React.Dispatch<React.SetStateAction<string[]>>
     onClose(): void
     pendingCoin: string | null
 }
 const LimitModal = (props: LimitModalProps) => {
-    const { selectedCoins, setSelectedCoins, onClose, pendingCoin } = props
+    const selectedCoins = useAppSelector(state => state.selectedCoinsSlice.coins)
+    const dispatch = useAppDispatch()
+    const { onClose, pendingCoin } = props
     return (
         <div className="LimitModal">
             <Modal onClose={onClose}>
@@ -20,23 +22,21 @@ const LimitModal = (props: LimitModalProps) => {
                         <button
                             className="remove-btn"
                             onClick={() => {
-                                setSelectedCoins(prev => {
-                                    const updated = prev.filter(id => id !== coin)
-                                    if (pendingCoin) {
-                                        return [...updated, pendingCoin]
-                                    }
-                                    return updated
-                                })
+                                dispatch(removeCoin(coin))
+                                if (pendingCoin) {
+                                    dispatch(addCoin(pendingCoin))
+                                }
                                 onClose()
                             }}
                         >
                             ✖
                         </button>
                     </div>
-                ))}
+                ))
+                }
                 <button onClick={onClose}>CLOSE</button>
-            </Modal>
-        </div>
+            </Modal >
+        </div >
     )
 }
 export default LimitModal

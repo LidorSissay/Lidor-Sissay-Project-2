@@ -9,8 +9,8 @@ import { populate } from "../../components/07-redux/coins-slice"
 const Home = () => {
     const coins = useAppSelector(state => state.coinsSlice.coins)
     const dispatch = useAppDispatch()
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [selectedCoins, setSelectedCoins] = useState<string[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const [isLimitModalOpen, setIsLimitModalOpen] = useState<boolean>(false)
     const [pendingCoin, setPendingCoin] = useState<string | null>(null)
     const [search, setSearch] = useState<string>('')
@@ -20,11 +20,16 @@ const Home = () => {
     useEffect(() => {
         (async () => {
             try {
-                if (coins.length > 0) return
+                if (coins.length > 0) {
+                    setIsLoaded(true)
+                    return
+                }
                 setIsLoading(true)
                 const coinsList = await coinsService.getCoins()
                 dispatch(populate(coinsList))
+                setIsLoaded(true)
             } catch (e) {
+                setIsLoaded(false)
                 alert(e)
             } finally {
                 setIsLoading(false)
@@ -34,7 +39,7 @@ const Home = () => {
     return (
         <div className="Home">
             {isLoading && <Spinner />}
-            {!isLoading && <>
+            {!isLoading && isLoaded && <>
                 <input
                     type="text"
                     placeholder="Search..."
@@ -48,17 +53,18 @@ const Home = () => {
                         <CoinCard
                             key={coin.id}
                             coin={coin}
-                            selectedCoins={selectedCoins}
-                            setSelectedCoins={setSelectedCoins}
                             setIsLimitModalOpen={setIsLimitModalOpen}
                             setPendingCoin={setPendingCoin} />))
                 }
             </>
             }
+            {!isLoading && !isLoaded &&
+                <div>
+                    <h4>ERROR</h4>
+                </div>
+            }
             {isLimitModalOpen && (
                 <LimitModal
-                    selectedCoins={selectedCoins}
-                    setSelectedCoins={setSelectedCoins}
                     onClose={() => setIsLimitModalOpen(false)}
                     pendingCoin={pendingCoin} />
             )}
