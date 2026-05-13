@@ -1,6 +1,7 @@
 import { useState } from "react"
 import type RecommendationCoinModel from "../../models/RecommendationCoinModel"
 import Spinner from "../04-spinner/Spinner"
+import aiService from "../../services/aiService"
 
 interface RecommendationCardProps {
     coin: RecommendationCoinModel
@@ -20,8 +21,11 @@ const RecommendationCard = (props: RecommendationCardProps) => {
                 apiKey = userKey
             }
             setIsLoading(true)
-            await new Promise(resolve => setTimeout(resolve, 1500))
-            setRecommendation('Bitcoin is BITCOIN')
+            const aiResponse = await aiService.getRecommendation(
+                coin,
+                apiKey
+            )
+            setRecommendation(aiResponse)
             setIsLoaded(true)
         } catch (e) {
             setIsLoaded(false)
