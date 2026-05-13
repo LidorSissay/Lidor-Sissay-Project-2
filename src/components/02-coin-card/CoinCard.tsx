@@ -5,8 +5,8 @@ import type CurrentPriceModel from "../../models/CurrentPriceModel"
 import MoreInfo from "../03--more-info/MoreInfo"
 import Spinner from "../04-spinner/Spinner"
 import Modal from "../05-modal/Modal"
-import { useAppDispatch, useAppSelector } from "../07-redux/hooks"
-import { addCoin, removeCoin } from "../07-redux/selected-coins-slice"
+import { useAppDispatch, useAppSelector } from "../../redux/hooks"
+import { addCoin, removeCoin } from "../../redux/selected-coins-slice"
 
 interface CoinCardProps {
     coin: CoinModel

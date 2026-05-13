@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type CoinModel from "../../models/CoinModel";
+import type CoinModel from "../models/CoinModel";
 
 interface CoinsState {
     coins: CoinModel[]

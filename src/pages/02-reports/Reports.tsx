@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../components/07-redux/hooks"
+import { useAppDispatch, useAppSelector } from "../../redux/hooks"
 import reportsService from "../../services/reportsService"
 import Spinner from "../../components/04-spinner/Spinner"
 import {
@@ -14,7 +14,8 @@ import {
 import type ChartDataModel from "../../models/ChartDataModel"
 import ReportsCharts from "../../components/07-reports-chart/ReportsCharts"
 import coinsService from "../../services/coinsService"
-import { populate } from "../../components/07-redux/coins-slice"
+import { populate } from "../../redux/coins-slice"
+import Title from "../../components/09-title/Title"
 
 ChartJS.register(
     LineElement,
@@ -97,7 +98,7 @@ const Reports = () => {
             {isLoading && <Spinner />}
             {!isLoading && isLoaded && (
                 <>
-                    <h4>Reports</h4>
+                    <Title title="Reports" />
                     <ReportsCharts chartData={chartData} />
                 </>
             )}

@@ -3,8 +3,10 @@ import coinsService from "../../services/coinsService"
 import CoinCard from "../../components/02-coin-card/CoinCard"
 import Spinner from "../../components/04-spinner/Spinner"
 import LimitModal from "../../components/06-limit-modal/LimitModal"
-import { useAppDispatch, useAppSelector } from "../../components/07-redux/hooks"
-import { populate } from "../../components/07-redux/coins-slice"
+import { useAppDispatch, useAppSelector } from "../../redux/hooks"
+import { populate } from "../../redux/coins-slice"
+import Title from "../../components/09-title/Title"
+
 
 const Home = () => {
     const coins = useAppSelector(state => state.coinsSlice.coins)
@@ -45,6 +47,7 @@ const Home = () => {
                     placeholder="Search..."
                     value={search}
                     onChange={displaySearchedCoins} />
+                <Title title="Home" />
                 {coins.filter(coin =>
                     coin.name.toLowerCase().includes(search.toLowerCase()) ||
                     coin.symbol.toLowerCase().includes(search.toLowerCase())

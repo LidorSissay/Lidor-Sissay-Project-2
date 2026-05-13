@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
-import storageService from "../../utils/localStorageUtils"
+import storageService from "../utils/localStorageUtils"
 
 interface SelectedCoinsState {
     coins: string[]

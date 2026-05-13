@@ -2,6 +2,7 @@ import { useState } from "react"
 import type RecommendationCoinModel from "../../models/RecommendationCoinModel"
 import Spinner from "../04-spinner/Spinner"
 import aiService from "../../services/aiService"
+import storageService from "../../utils/localStorageUtils"
 
 interface RecommendationCardProps {
     coin: RecommendationCoinModel
@@ -13,11 +14,11 @@ const RecommendationCard = (props: RecommendationCardProps) => {
     const { coin } = props
     const getRecommendation = async () => {
         try {
-            let apiKey = localStorage.getItem("apiKey")
+            let apiKey = storageService.getData<string>("apiKey")
             if (!apiKey) {
                 const userKey = prompt("Please enter your AI API key")
                 if (!userKey) return
-                localStorage.setItem("apiKey", userKey)
+                storageService.setData("apiKey", userKey)
                 apiKey = userKey
             }
             setIsLoading(true)

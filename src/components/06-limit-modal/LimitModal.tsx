@@ -1,6 +1,6 @@
 import Modal from "../05-modal/Modal"
-import { useAppDispatch, useAppSelector } from "../07-redux/hooks"
-import { addCoin, removeCoin } from "../07-redux/selected-coins-slice"
+import { useAppDispatch, useAppSelector } from "../../redux/hooks"
+import { addCoin, removeCoin } from "../../redux/selected-coins-slice"
 import './LimitModal.css'
 
 interface LimitModalProps {

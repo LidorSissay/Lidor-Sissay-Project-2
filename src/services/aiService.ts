@@ -52,11 +52,9 @@ class AiService {
                 headers: {
                     Authorization: `Bearer ${apiKey}`,
                     "Content-Type": "application/json"
-                },
-                timeout: 30000
+                }
             }
         )
-        console.log(response.data)
         return response.data.choices[0].message.content
     }
 }
