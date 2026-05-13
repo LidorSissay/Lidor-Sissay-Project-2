@@ -50,30 +50,37 @@ const CoinCard = (props: CoinCardProps) => {
             {isLoading && <Spinner />}
             {!isLoading && isLoaded &&
                 <>
-                    <div><input
-                        type="checkbox"
-                        checked={selectedCoins.includes(id)}
-                        onChange={() => {
-                            if (selectedCoins.includes(id)) {
-                                dispatch(removeCoin(id))
-                                return
-                            } if (selectedCoins.length === 5) {
-                                setIsLimitModalOpen(true)
-                                setPendingCoin(id)
-                                return
+                    <label className="CoinCard__toggle" title="Select for reports">
+                        <input
+                            type="checkbox"
+                            className="CoinCard__toggle-input"
+                            checked={selectedCoins.includes(id)}
+                            onChange={() => {
+                                if (selectedCoins.includes(id)) {
+                                    dispatch(removeCoin(id))
+                                    return
+                                } if (selectedCoins.length === 5) {
+                                    setIsLimitModalOpen(true)
+                                    setPendingCoin(id)
+                                    return
+                                }
+                                dispatch(addCoin(id))
                             }
-                            dispatch(addCoin(id))
-                        }
-                        } />
+                            } />
+                        <span className="CoinCard__toggle-track" aria-hidden="true">
+                            <span className="CoinCard__toggle-thumb" />
+                        </span>
+                    </label>
+                    <div className="CoinCard__body">
+                        <div className="CoinIcon"><img src={image} alt={id} /></div>
+                        <div className="CoinName">{name}</div>
+                        <div className="CoinSymbol">{symbol.toUpperCase()}</div>
                     </div>
-                    <div className="CoinIcon"><img src={image} alt={id} /></div>
-                    <div className="CoinName">{name}</div>
-                    <div className="CoinSymbol">{symbol.toUpperCase()}</div>
-                    <div className="btn"><button onClick={displayInfo} >MORE INFO</button></div>
+                    <div className="btn"><button type="button" className="CoinCard__more-btn" onClick={displayInfo} >MORE INFO</button></div>
                 </>
             }
             {!isLoading && !isLoaded &&
-                <div>
+                <div className="PageError">
                     <h4>ERROR</h4>
                 </div>
             }

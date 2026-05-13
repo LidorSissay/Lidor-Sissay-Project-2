@@ -42,27 +42,32 @@ const Home = () => {
         <div className="Home">
             {isLoading && <Spinner />}
             {!isLoading && isLoaded && <>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={search}
-                    onChange={displaySearchedCoins} />
-                <Title title="Home" />
-                {coins.filter(coin =>
-                    coin.name.toLowerCase().includes(search.toLowerCase()) ||
-                    coin.symbol.toLowerCase().includes(search.toLowerCase())
-                )
-                    .map(coin => (
-                        <CoinCard
-                            key={coin.id}
-                            coin={coin}
-                            setIsLimitModalOpen={setIsLimitModalOpen}
-                            setPendingCoin={setPendingCoin} />))
-                }
+                <div className="Home__toolbar">
+                    <input
+                        className="Home__search"
+                        type="text"
+                        placeholder="Search coins..."
+                        value={search}
+                        onChange={displaySearchedCoins} />
+                    <Title title="Home" />
+                </div>
+                <div className="Home__grid">
+                    {coins.filter(coin =>
+                        coin.name.toLowerCase().includes(search.toLowerCase()) ||
+                        coin.symbol.toLowerCase().includes(search.toLowerCase())
+                    )
+                        .map(coin => (
+                            <CoinCard
+                                key={coin.id}
+                                coin={coin}
+                                setIsLimitModalOpen={setIsLimitModalOpen}
+                                setPendingCoin={setPendingCoin} />))
+                    }
+                </div>
             </>
             }
             {!isLoading && !isLoaded &&
-                <div>
+                <div className="PageError">
                     <h4>ERROR</h4>
                 </div>
             }

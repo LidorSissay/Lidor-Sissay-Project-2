@@ -37,19 +37,32 @@ const RecommendationCard = (props: RecommendationCardProps) => {
     }
     return (
         <div className="RecommendationCard">
-            <div>
+            <div className="RecommendationCard__header">
                 <h3>{coin.name}</h3>
-                <p>Current Price: ${coin.market_data.current_price.usd}</p>
-                <p>Market Cap: ${coin.market_data.market_cap.usd}</p>
-                <p>24h Volume: ${coin.market_data.total_volume.usd}</p>
-                <button onClick={getRecommendation}>
+            </div>
+            <div className="RecommendationCard__stats">
+                <div className="RecommendationCard__stat">
+                    Current Price <strong>${coin.market_data.current_price.usd}</strong>
+                </div>
+                <div className="RecommendationCard__stat">
+                    Market Cap <strong>${coin.market_data.market_cap.usd}</strong>
+                </div>
+                <div className="RecommendationCard__stat">
+                    24h Volume <strong>${coin.market_data.total_volume.usd}</strong>
+                </div>
+            </div>
+            <div className="RecommendationCard__actions">
+                <button type="button" className="RecommendationCard__ai-btn" onClick={getRecommendation}>
                     Get AI Recommendation
                 </button>
                 {isLoading && <Spinner />}
-                {!isLoading && isLoaded &&
-                    <p>{recommendation}</p>
-                }
             </div>
+            {!isLoading && isLoaded &&
+                <div className="RecommendationCard__ai">
+                    <div className="RecommendationCard__ai-label">AI insight</div>
+                    <p>{recommendation}</p>
+                </div>
+            }
         </div>
     )
 }

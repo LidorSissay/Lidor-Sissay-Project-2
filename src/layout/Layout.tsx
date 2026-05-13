@@ -10,14 +10,16 @@ const Layout = () => {
     return (
         <div className="Layout">
             <Navbar />
-            <Routes>
-                <Route path="/" element={<Navigate to="/home" />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/recommendations" element={<Recommendations />} />
-                <Route path="/about" element={<About />} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+            <main className="PageBody">
+                <Routes>
+                    <Route path="/" element={<Navigate to="/home" />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/reports" element={<Reports />} />
+                    <Route path="/recommendations" element={<Recommendations />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </main>
         </div>
     )
 }

@@ -91,7 +91,11 @@ const Reports = () => {
         return () => clearInterval(interval)
     }, [symbols])
     if (selectedCoins.length === 0) {
-        return <h4>Please select coins first...</h4>
+        return (
+            <div className="PageMessage">
+                <h4>Please select coins first...</h4>
+            </div>
+        )
     }
     return (
         <div className="Reports">
@@ -99,11 +103,15 @@ const Reports = () => {
             {!isLoading && isLoaded && (
                 <>
                     <Title title="Reports" />
-                    <ReportsCharts chartData={chartData} />
+                    <div className="Reports__panel">
+                        <ReportsCharts chartData={chartData} />
+                    </div>
                 </>
             )}
             {!isLoading && !isLoaded &&
-                <h4>ERROR</h4>
+                <div className="PageError">
+                    <h4>ERROR</h4>
+                </div>
             }
         </div>
     )

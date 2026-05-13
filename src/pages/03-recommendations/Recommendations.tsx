@@ -11,9 +11,6 @@ const Recommendations = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const selectedCoins = useAppSelector(state => state.selectedCoinsSlice.coins)
-    if (selectedCoins.length === 0) {
-        return <h4>Please select coins first...</h4>
-    }
     useEffect(() => {
         (async () => {
             try {
@@ -29,22 +26,31 @@ const Recommendations = () => {
                 setIsLoading(false)
             }
         })()
-    }, [])
+    }, [selectedCoins])
+    if (selectedCoins.length === 0) {
+        return (
+            <div className="PageMessage">
+                <h4>Please select coins first...</h4>
+            </div>
+        )
+    }
     return (
         <div className="Recommendations">
             {isLoading && <Spinner />}
             {!isLoading && isLoaded && (
                 <>
                     <Title title="AI Recommendations" />
-                    {recommendations.map(coin => <RecommendationCard
-                        key={coin.id}
-                        coin={coin}
-                    />
-                    )}
+                    <div className="Recommendations__list">
+                        {recommendations.map(coin => <RecommendationCard
+                            key={coin.id}
+                            coin={coin}
+                        />
+                        )}
+                    </div>
                 </>
             )}
             {!isLoading && !isLoaded &&
-                <div>
+                <div className="PageError">
                     <h4>ERROR</h4>
                 </div>}
         </div>
